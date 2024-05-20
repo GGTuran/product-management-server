@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import  { model } from 'mongoose';
 import { Schema } from 'mongoose';
 import { TInventory, TProduct, TVariant } from './product.interface';
 
@@ -26,4 +26,4 @@ const productSchema = new Schema<TProduct>({
   inventory: { type: inventorySchema, required: true },
 });
 
-const Product = mongoose.model('Product', productSchema);
+export const ProductModel = model<TProduct>('Product', productSchema);   //named the model ProductModel because sometimes i am confused about the name 
