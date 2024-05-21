@@ -5,10 +5,10 @@ import { TProduct } from "./product.interface";
 import { Product } from "./product.model";
 
 const createProductIntoDb = async ( payload: TProduct ) =>{
-    //I will create by using instance
-    const ProductInstance = new Product(payload);
     
-    const result = await ProductInstance.save(); //creating instance
+ 
+    
+    const result = await Product.create(payload);
     return result;
 };
 

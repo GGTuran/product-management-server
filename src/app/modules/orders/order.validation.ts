@@ -7,3 +7,4 @@ const orderZodSchema = z.object({
     quantity: z.number().int().positive({ message: 'Quantity must be a positive integer' }),
   });
   
+  export default orderZodSchema;

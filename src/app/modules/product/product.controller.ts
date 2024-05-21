@@ -7,9 +7,9 @@ const createProduct = async (req: Request, res: Response) => {
     try {
         const { product: ProductData } = req.body;
         //validating it by using zod
-        const ZodValidation = productZodSchema.parse(ProductData)
+        const ZodValidatedProduct = productZodSchema.parse(ProductData)
         //calling service function 
-        const result = await productService.createProductIntoDb(ZodValidation);
+        const result = await productService.createProductIntoDb(ZodValidatedProduct);
         res.status(200).json({
             success: true,
             message: "Product data is created successfully",

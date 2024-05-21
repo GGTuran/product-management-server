@@ -5,21 +5,22 @@ const  orderSchema = new Schema<TOrder>({
     email:{
         type:String,
         required:[true, 'Email is required for ordering'],
-        match:[/.+\@.+\..+/,'give a valid email'],
+        // match:[/.+\@.+\..+/,'give a valid email'],
     },
     productId:{
         type:String,
+        ref:'Product',
         required:[true, 'productId is required'],
     },
     price:{
         type:Number,
         required:[true, 'Price is required'],
-        min:[0,'Price has to be positive']
+        // min:[0,'Price has to be positive']
     },
     quantity:{
         type:Number,
         required:[true, 'Quantity is required'],
-        min:[1,'At least one quantity should be brought'],
+        // min:[1,'At least one quantity should be brought'],
     },
 });
 

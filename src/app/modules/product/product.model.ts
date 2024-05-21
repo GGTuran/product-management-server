@@ -1,6 +1,6 @@
 import  { model } from 'mongoose';
 import { Schema } from 'mongoose';
-import { ProductInstanceModel, ProductMethods, TInventory, TProduct, TVariant } from './product.interface';
+import {ProductMethod, TInventory, TProduct, TVariant } from './product.interface';
 
 
 // Schema for TVariant
@@ -20,7 +20,7 @@ const inventorySchema = new Schema<TInventory>({
 );
 
 // Schema for TProduct
-const productSchema = new Schema<TProduct,ProductInstanceModel,ProductMethods>({
+const productSchema = new Schema<TProduct, ProductMethod>({
   name: { type: String, required: [true, 'Product name is required'] , unique:true},
   description: { type: String, required: [true,'Description is required'], unique:true },
   price: { type: Number, required: [true,'Price is required'], unique:true },
@@ -32,16 +32,16 @@ const productSchema = new Schema<TProduct,ProductInstanceModel,ProductMethods>({
 
 
 
-//Creating the custom instance method
-productSchema.methods.isUserExists = async function (id: string){
+//Creating the custom static method
+productSchema.statics.isProductExist = async function (id:string){
   const existingProduct = await Product.findById(id);
-  return existingProduct; 
-};
+  return existingProduct;
+}
 
 
 
 
 
-export const Product = model<TProduct,ProductInstanceModel>('Product', productSchema);   
+export const Product = model<TProduct,ProductMethod>('Product', productSchema);   
 
 
