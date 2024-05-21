@@ -36,7 +36,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     }
     res.status(200).json({
       success: true,
-      message: 'Products fetched successfully',
+      message: 'Products fetched successfully!',
       data: result,
     });
   } catch (error) {
@@ -77,7 +77,7 @@ const updateProduct = async (req: Request, res: Response) => {
     );
     res.status(200).json({
       success: true,
-      message: 'Product updated successfully',
+      message: 'Product updated successfully!',
       data: result,
     });
   } catch (error) {
@@ -94,13 +94,13 @@ const deleteProduct = async (req: Request, res: Response) => {
     const result = await productService.deleteProductFromDb(productId);
     res.status(200).json({
       success: true,
-      message: 'Product deleted successfully',
+      message: 'Product deleted successfully!',
       data: null,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Route not found',
+      message: 'Route not found!',
       error: error,
     });
   }
