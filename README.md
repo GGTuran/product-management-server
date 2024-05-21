@@ -40,7 +40,7 @@ npm run build
 npm run start:dev
 ```
 
-**Or you can start the server by running the js files**
+**Or you can start the server by running the js files which is recommended**
 
 ```
 npm run start:prod
