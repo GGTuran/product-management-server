@@ -36,7 +36,7 @@ const getAllOrders = async(req:Request, res:Response)=>{
        const  orderedEmail:any  = req.query.email;
        if(orderedEmail){
         function verifyEmail(email:string){
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const regex =/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
             return regex.test(email);
         }
         if(verifyEmail(orderedEmail)){
