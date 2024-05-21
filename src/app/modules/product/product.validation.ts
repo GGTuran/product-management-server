@@ -15,7 +15,7 @@ const variantZodSchema = z.object({
   
 
   const productZodSchema = z.object({
-    name: z.string({errorMap: () => ({message:'Product name is not valid'})}).trim().nonempty('Product name is required'),
+    name: z.string({errorMap: () => ({message:'Product name is not valid'})}).trim(),
     description: z.string({errorMap : ()=> ({message:'Description is not valid'})}),
     price: z.number({errorMap:()=>({message:'Price is not valid'})}).positive(),
     category: z.string({errorMap:()=>({message:'Category is not valid'})}),

@@ -1,3 +1,4 @@
+import { Model } from "mongoose";
 
 export type TVariant = {
     type: string;
@@ -19,3 +20,14 @@ export type TProduct = {
     inventory: TInventory;
   }
   
+//Custom instance method for checking if the product is available or not
+
+export type ProductMethods = {
+  isUserExists( id : string):Promise<TProduct | null>;
+};
+
+export type ProductInstanceModel = Model<
+TProduct,
+Record<string, never>,
+ProductMethods
+>;
