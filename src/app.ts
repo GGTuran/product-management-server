@@ -9,8 +9,8 @@ app.use(express.json());
 app.use(cors());
 
 //application routes
-app.use('/api/products',productRoutes);
-app.use('/api/orders', OrderRoutes );
+app.use('/api/products', productRoutes);
+app.use('/api/orders', OrderRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Product Management server');
