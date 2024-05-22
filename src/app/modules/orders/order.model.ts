@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import  { Schema, model } from 'mongoose';
 import { TOrder } from './order.interface';
 import { Product } from '../product/product.model';
 
@@ -25,36 +25,24 @@ const orderSchema = new Schema<TOrder>({
 });
 
 orderSchema.pre('save', async function (next) {
-  const availability = await Product.findById(this.productId);         //to check id the product exist or not
-  if (!availability) {
-    throw new Error("This product doesn't exists in database");
+  const amount = await Product.findById(this.productId);                  //checking the availability
+
+  if (!amount) {
+    throw new Error("This product doesn't exist in the database");
   }
-  const {
-    inventory: { quantity },                                           //destructuring the quantity field
-  }: any = await Product.findById(this.productId);                     //finding by the id
-  if (quantity < this.quantity) {
+
+  if (amount.inventory.quantity < this.quantity) {                        //checking the amount of product   
     throw new Error('Insufficient quantity available in inventory');
   }
-  
-  const updatedQuantity = await Product.findByIdAndUpdate(              //Updating the amount available is stock
-    this.productId,
-    {
-      $inc: {
-        'inventory.quantity': -this.quantity,                           //by simply subtracting the order quantity by using mongodb increment operator and a minus sign in front
-      },
-    },
-    { new: true },                                                       //updating the latest document for the product   
-  );
-  //updating the stock if there is no quantity left
-  if (updatedQuantity?.inventory.quantity === 0) {                       //making the stock field false if there is no quantity  
-    await Product.findByIdAndUpdate(this.productId, {
-      $set: {
-        'inventory.inStock': false,
-      },
-    });
-  }
-  //calling the next function
+
+  amount.inventory.quantity -= this.quantity;                            //updating the product
+  amount.inventory.inStock = amount.inventory.quantity > 0;
+
+  await amount.save(); 
+
   next();
 });
+
+
 
 export const Order = model<TOrder>('Order', orderSchema);
