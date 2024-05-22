@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { productService } from './productservice';
 import productZodSchema from './product.validation';
-import { TProduct } from './product.interface';
+
 
 const createProduct = async (req: Request, res: Response) => {
   try {
