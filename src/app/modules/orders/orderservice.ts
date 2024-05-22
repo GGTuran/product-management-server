@@ -7,12 +7,12 @@ const createOrderInDb = async (payload: TOrder) => {
 };
 
 const getAllOrdersFromDb = async (email: string) => {
-  if (email) {
-    const result = await Order.find({ email });
+  if (email) {                                                //If there is an email given
+    const result = await Order.find({ email });               //will find the orders of that email
     return result;
   }
 
-  const result = await Order.find();
+  const result = await Order.find();                          //If there is no email then will fetch all orders   
   return result;
 };
 

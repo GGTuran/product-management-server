@@ -16,10 +16,10 @@ const createProduct = async (req: Request, res: Response) => {
       message: 'Product created successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       success: false,
-      message: "Couldn't create product data because something is wrong",
+      message: error.message ||"Route not found",
       error: error,
     });
   }
@@ -39,10 +39,10 @@ const getAllProducts = async (req: Request, res: Response) => {
       message: 'Products fetched successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       success: false,
-      message: "Couldn't get product data because something is wrong",
+      message: error.message||"Couldn't get product data because something is wrong",
       error: error,
     });
   }
@@ -58,10 +58,10 @@ const getSingleProduct = async (req: Request, res: Response) => {
       message: 'Product fetched successfully!',
       data: product,
     });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       success: false,
-      message: 'Product not found',
+      message: error.message || 'Product not found',
       error: error,
     });
   }
@@ -69,21 +69,22 @@ const getSingleProduct = async (req: Request, res: Response) => {
 const updateProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const addedData = req.body;
-    const updatedData = productZodSchema.partial().safeParse(addedData);
+    const addedData = req.body;                                                         
+    const updatedData = productZodSchema.parse(addedData);                
     const result = await productService.UpdateProductInDb(
       productId,
-      updatedData.data as TProduct,
+      updatedData,                                                     
     );
     res.status(200).json({
       success: true,
       message: 'Product updated successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: 'Product updating unsuccessful!',
+      message: error.message ||'Route not found!',
+      error:error
     });
   }
 };
@@ -91,17 +92,17 @@ const updateProduct = async (req: Request, res: Response) => {
 const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const result = await productService.deleteProductFromDb(productId);
+    const result = await productService.deleteProductFromDb(productId);                   //this result is unused variable because we have to return null
     res.status(200).json({
       success: true,
       message: 'Product deleted successfully!',
       data: null,
     });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       success: false,
       message: 'Route not found!',
-      error: error,
+      error: error.message||error,
     });
   }
 };

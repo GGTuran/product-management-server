@@ -4,15 +4,15 @@ import { TProduct } from './product.interface';
 import { Product } from './product.model';
 
 const createProductIntoDb = async (payload: TProduct) => {
-  const result = await Product.create(payload);
+  const result = await Product.create(payload);                              //creating by using built-is static method
   return result;
 };
 
 const getAllProductsFromDb = async (searchTerm: string) => {
-  //find by query
+  //find by regex
   const querySearch = searchTerm
     ? {
-        $or: [
+        $or: [                                                               //using or operator will take all the conditions and apply any of them   
           { name: { $regex: searchTerm, $options: 'i' } },
           { description: { $regex: searchTerm, $options: 'i' } },
           { category: { $regex: searchTerm, $options: 'i' } },
@@ -20,7 +20,7 @@ const getAllProductsFromDb = async (searchTerm: string) => {
         ],
       }
     : {};
-  const result = await Product.find(querySearch);
+  const result = await Product.find(querySearch);                              //search by text or fetch all data
   return result;
 };
 

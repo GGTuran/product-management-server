@@ -13,10 +13,10 @@ const createOrder = async (req: Request, res: Response) => {
       message: 'Order is created successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       success: false,
-      message: "Order not found",
+      message: error.message||"Order not found",
       error: error,
     });
   }
@@ -27,11 +27,11 @@ const getAllOrders = async (req: Request, res: Response) => {
     const orderedEmail: any = req.query.email;
     if (orderedEmail) {
       function verifyEmail(email: string) {
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;        //first i have to verifay the email by using regex
         return regex.test(email);
       }
       if (verifyEmail(orderedEmail)) {
-        const result = await orderService.getAllOrdersFromDb(orderedEmail);
+        const result = await orderService.getAllOrdersFromDb(orderedEmail);        //checking if the verified email has an order or not 
         if (result.length > 0) {
           return res.status(200).json({                                            //had to use return before giving a response status because the server was crashing 
             success: true,
@@ -45,20 +45,20 @@ const getAllOrders = async (req: Request, res: Response) => {
           });
         }
       } else {
-        return res.status(500).json({
+        return res.status(500).json({                                               //error handling for invalid email address
           success: false,
           message: 'Invalid email address',
         });
       }
     }
-    const result = await orderService.getAllOrdersFromDb('');
+    const result = await orderService.getAllOrdersFromDb(req.query.email as any);     //getting all the orders from database
     if (result.length > 0) {
       return res.status(200).json({
         success: true,
         message: 'orders fetched successfully',
         data: result,
       });
-    } else {
+    } else {                                                                          //if there is something wrong
       return res.status(500).json({
         success: false,
         message: 'Order not found',

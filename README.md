@@ -34,7 +34,7 @@ npm run build
 
 ## Start the server
 
-**You can run the dev command for typescript and this will start the server**
+**You can run the server in development mode**
 
 ```
 npm run start:dev

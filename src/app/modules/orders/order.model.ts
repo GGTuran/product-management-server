@@ -35,15 +35,15 @@ orderSchema.pre('save', async function (next) {
   if (quantity < this.quantity) {
     throw new Error('Insufficient quantity available in inventory');
   }
-  //reducing the quantity
+  
   const updatedQuantity = await Product.findByIdAndUpdate(              //Updating the amount available is stock
     this.productId,
     {
       $inc: {
-        'inventory.quantity': -this.quantity,                           //by simply subtracting the order quantity from this.quantity
+        'inventory.quantity': -this.quantity,                           //by simply subtracting the order quantity by using mongodb increment operator and a minus sign in front
       },
     },
-    { new: true },
+    { new: true },                                                       //updating the latest document for the product   
   );
   //updating the stock if there is no quantity left
   if (updatedQuantity?.inventory.quantity === 0) {                       //making the stock field false if there is no quantity  
